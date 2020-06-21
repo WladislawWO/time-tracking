@@ -121,6 +121,7 @@ export class StatisticComponent implements OnInit {
       english = [];
     this.auth.getUserState().subscribe((user) => {
       this.user.getStatisticData(user).subscribe((res: FbResponce[]) => {
+        if (dates.length > 0) return;
         if (this.route.snapshot.params.id === 'All') {
           res.map((g) => {
             dates.push(g.data.date.split('-')[0]);
@@ -170,8 +171,6 @@ export class StatisticComponent implements OnInit {
           }
           this.chart.update();
         }
-
-        // console.log({ res, dates, times });
       });
     });
   }
