@@ -18,9 +18,11 @@
   <div class="flex-item">
     <table class="table table-responsive table-condensed">
       <tr>
+        <th>Dates</th>
         <th *ngFor="let label of lineChartLabels">{{ label }}</th>
       </tr>
       <tr *ngFor="let d of lineChartData; let i = index" [class]="'line-' + i">
+        <td>Times</td>
         <td *ngFor="let label of lineChartLabels; let j = index">
           {{ d && d.data[j] }}
         </td>
