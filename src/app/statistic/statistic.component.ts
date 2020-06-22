@@ -13,6 +13,7 @@ import { Goals, FbResponce } from '../interface';
   styleUrls: ['./statistic.component.scss'],
 })
 export class StatisticComponent implements OnInit {
+  initData = { dates: [], times: [] };
   public lineChartData: ChartDataSets[] = [
     { data: [], label: this.route.snapshot.params.id },
   ];
@@ -140,20 +141,17 @@ export class StatisticComponent implements OnInit {
             times.push(g.data[this.route.snapshot.params.id]);
           });
 
+          this.initData.dates = [...dates];
+          this.initData.times = [...times];
+
           this.lineChartData = [
-            { data: times, label: this.route.snapshot.params.id },
+            {
+              data: times.splice(times.length - 7, times.length),
+              label: this.route.snapshot.params.id,
+            },
           ];
-          this.lineChartLabels = dates;
-          if (dates.length < 7) {
-            if (dates.length !== 0) {
-              const date = new Date();
-              for (let i = dates.length; i < 7; i++) {
-                date.setDate(date.getDate() + 1);
-                dates.push(date.getDate());
-                times.push(0);
-              }
-            }
-          }
+          this.lineChartLabels = dates.splice(dates.length - 7, dates.length);
+
           this.chart.update();
         }
       });
@@ -216,5 +214,32 @@ export class StatisticComponent implements OnInit {
   public changeLabel() {
     this.lineChartLabels[2] = ['1st Line', '2nd Line'];
     // this.chart.update();
+  }
+
+  switchToWeek() {
+    if (this.lineChartData[0].data.length > 7) {
+      const times = [...this.initData.times];
+      const dates = [...this.initData.dates];
+      this.lineChartData[0].data = times.splice(times.length - 7, times.length);
+      this.lineChartLabels = dates.splice(dates.length - 7, dates.length);
+      this.chart.update();
+    }
+  }
+  switchToMonth() {
+    const times = [...this.initData.times];
+    const dates = [...this.initData.dates];
+    if (this.lineChartData[0].data.length > 31) {
+      this.lineChartData[0].data = times.splice(
+        times.length - 30,
+        times.length
+      );
+      this.lineChartLabels = dates.splice(times.length - 30, times.length);
+      this.chart.update();
+    } else {
+      console.log(this.initData.times);
+      this.lineChartData[0].data = times;
+      this.lineChartLabels = dates;
+      this.chart.update();
+    }
   }
 }

@@ -1,8 +1,16 @@
-.canvas {
-  background-color: white;
-}
 .table {
   padding: 20px;
-  background-color: white;
   margin-bottom: 0 !important;
+  background-color: white;
+}
+
+.flex {
+  height: 100%;
+  background-attachment: inherit;
+  background-color: white;
+}
+
+.settings {
+  background-color: white;
+  padding: 20px;
 }
